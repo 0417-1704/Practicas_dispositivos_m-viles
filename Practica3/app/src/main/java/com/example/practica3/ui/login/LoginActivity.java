@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -29,9 +30,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import android.content.Intent;
 import com.example.practica3.R;
-import com.example.practica3.ui.login.LoginViewModel;
-import com.example.practica3.ui.login.LoginViewModelFactory;
+import com.example.practica3.SegundaPantalla;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,6 +41,9 @@ public class LoginActivity extends AppCompatActivity {
     TextView textView;
     RequestQueue queue;
     StringRequest stringRequest;
+    String r;
+    public static final String r2= "";
+
     //https://www.lamarr.com.mx/webservice2.php?email=ciencias@ciencias.unam.mx&password=1234
 
     @Override
@@ -52,10 +56,10 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
-        final EditText usernameEditText = findViewById(R.id.username);
-        final EditText passwordEditText = findViewById(R.id.password);
-        final Button loginButton = findViewById(R.id.login);
-        final Button closeButton = findViewById(R.id.login2);
+        final EditText usernameEditText = findViewById(R.id.txtem);
+        final EditText passwordEditText = findViewById(R.id.txtpswd);
+        final Button loginButton = findViewById(R.id.b1);
+        final Button closeButton = findViewById(R.id.b2);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
@@ -130,16 +134,27 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
                 url = url + "email=" + usernameEditText.getText().toString() + "&password=" + passwordEditText.getText().toString();
+
                 stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+
+                                r = response.toString();
+                                int valor = r.indexOf("true");
+
+
+
                                 textView.setText(response.toString());
-                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                                urls(textView);
+
+                                //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -148,7 +163,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
                 queue.add(stringRequest);
-
             }
         });
 
@@ -171,5 +185,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+    }
+
+    public void urls(View v){
+        Intent i = new Intent(this, SegundaPantalla.class);
+        i.putExtra(r2, r);
+        startActivity(i);
     }
 }
