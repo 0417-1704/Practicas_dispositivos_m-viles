@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Practica04</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Ingresa tu e-mail</string>
+    <string name="prompt_password">Ingresa tu contraseña</string>
+    <string name="action_sign_in">IR</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >2 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="p2txt">"AQUÍ VAN LAS LIGAS"</string>
+    <string name="p2b1">"REGRESAR"</string>
+    <string name="p2b2">"TERMINAR"</string>
+    <string name="terminar">Terminar</string>
+</resources>
